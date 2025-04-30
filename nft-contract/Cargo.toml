@@ -1,0 +1,28 @@
+[package]
+name = "nft-contract"
+version = "0.1.0"
+authors = ["Near Inc <hello@near.org>"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+near-sdk = "3.1.0"
+near-contract-standards = "3.1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+borsh = "0.9.3"
+borsh-derive = "0.9.3"
+thiserror = "1.0"
+
+[profile.release]
+codegen-units = 1
+opt-level = 3
+lto = true
+debug = false
+panic = 'abort'
+incremental = false
+
+[workspace]
+members = [] 

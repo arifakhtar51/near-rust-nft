@@ -1,0 +1,13 @@
+{
+  "name": "nft-contract",
+  "version": "1.0.0",
+  "description": "NEAR NFT Contract",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "near-workspaces": "^3.4.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  }
+} 
