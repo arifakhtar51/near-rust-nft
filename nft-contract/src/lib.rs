@@ -1,7 +1,7 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::collections::LazyOption;
+use near_sdk::collections::{LazyOption, UnorderedSet};
 use near_sdk::{
-    env, near_bindgen, BorshStorageKey, PanicOnDefault, PromiseOrValue,
+    env, near_bindgen, AccountId, BorshStorageKey, PanicOnDefault, PromiseOrValue,
 };
 use near_sdk::json_types::{ValidAccountId, U128};
 use near_contract_standards::non_fungible_token::core::NonFungibleTokenCore;
@@ -18,6 +18,7 @@ pub enum StorageKey {
     TokenMetadata,
     Enumeration,
     Approval,
+    TokensPerOwner { account_hash: Vec<u8> },
 }
 
 #[near_bindgen]
@@ -30,7 +31,7 @@ pub struct Contract {
 #[near_bindgen]
 impl Contract {
     #[init]
-    pub fn new(owner_id: ValidAccountId) -> Self {
+    pub fn new_default_meta() -> Self {
         assert!(!env::state_exists(), "Already initialized");
         
         let metadata = NFTContractMetadata {
@@ -46,7 +47,7 @@ impl Contract {
         Self {
             token: NonFungibleToken::new(
                 StorageKey::NonFungibleToken,
-                owner_id,
+                ValidAccountId::try_from(env::current_account_id()).unwrap(),
                 Some(StorageKey::TokenMetadata),
                 Some(StorageKey::Enumeration),
                 Some(StorageKey::Approval),
@@ -65,7 +66,37 @@ impl Contract {
         token_owner_id: ValidAccountId,
         token_metadata: TokenMetadata,
     ) -> Token {
-        self.token.mint(token_id, token_owner_id, Some(token_metadata))
+        let owner_id: AccountId = token_owner_id.into();
+
+        assert!(
+            self.token.owner_by_id.insert(&token_id, &owner_id).is_none(),
+            "Token already exists"
+        );
+
+        self.token
+            .token_metadata_by_id
+            .as_mut()
+            .unwrap()
+            .insert(&token_id, &token_metadata);
+
+        // Add to owner's token set
+        if let Some(tokens_per_owner) = &mut self.token.tokens_per_owner {
+            let mut tokens_set = tokens_per_owner.get(&owner_id).unwrap_or_else(|| {
+                let prefix = StorageKey::TokensPerOwner {
+                    account_hash: env::sha256(owner_id.as_bytes()),
+                };
+                UnorderedSet::new(prefix)
+            });
+            tokens_set.insert(&token_id);
+            tokens_per_owner.insert(&owner_id, &tokens_set);
+        }
+
+        Token {
+            token_id,
+            owner_id,
+            metadata: Some(token_metadata),
+            approved_account_ids: Default::default(),
+        }
     }
 }
 
@@ -73,8 +104,15 @@ impl Contract {
 #[near_bindgen]
 impl NonFungibleTokenCore for Contract {
     #[payable]
-    fn nft_transfer(&mut self, receiver_id: ValidAccountId, token_id: TokenId, approval_id: Option<u64>, memo: Option<String>) {
-        self.token.nft_transfer(receiver_id, token_id, approval_id, memo)
+    fn nft_transfer(
+        &mut self,
+        receiver_id: ValidAccountId,
+        token_id: TokenId,
+        approval_id: Option<u64>,
+        memo: Option<String>,
+    ) {
+        self.token
+            .nft_transfer(receiver_id, token_id, approval_id, memo)
     }
 
     #[payable]
@@ -86,15 +124,21 @@ impl NonFungibleTokenCore for Contract {
         memo: Option<String>,
         msg: String,
     ) -> PromiseOrValue<bool> {
-        self.token.nft_transfer_call(receiver_id, token_id, approval_id, memo, msg)
+        self.token
+            .nft_transfer_call(receiver_id, token_id, approval_id, memo, msg)
     }
 
     fn nft_token(self, token_id: TokenId) -> Option<Token> {
         self.token.nft_token(token_id)
     }
 
-    fn mint(&mut self, token_id: TokenId, token_owner_id: ValidAccountId, token_metadata: Option<TokenMetadata>) -> Token {
-        self.token.mint(token_id, token_owner_id, token_metadata)
+    fn mint(
+        &mut self,
+        token_id: TokenId,
+        token_owner_id: ValidAccountId,
+        token_metadata: Option<TokenMetadata>,
+    ) -> Token {
+        self.nft_mint(token_id, token_owner_id, token_metadata.unwrap())
     }
 }
 
@@ -113,7 +157,13 @@ impl NonFungibleTokenEnumeration for Contract {
         self.token.nft_supply_for_owner(account_id)
     }
 
-    fn nft_tokens_for_owner(&self, account_id: ValidAccountId, from_index: Option<U128>, limit: Option<u64>) -> Vec<Token> {
-        self.token.nft_tokens_for_owner(account_id, from_index, limit)
+    fn nft_tokens_for_owner(
+        &self,
+        account_id: ValidAccountId,
+        from_index: Option<U128>,
+        limit: Option<u64>,
+    ) -> Vec<Token> {
+        self.token
+            .nft_tokens_for_owner(account_id, from_index, limit)
     }
 } 

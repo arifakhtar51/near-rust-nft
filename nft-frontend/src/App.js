@@ -12,6 +12,7 @@ function App() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [mediaUrl, setMediaUrl] = useState('');
+  const [ownerAccountId, setOwnerAccountId] = useState('');
   const [mintingInProgress, setMintingInProgress] = useState(false);
 
   useEffect(() => {
@@ -58,11 +59,12 @@ function App() {
 
     setMintingInProgress(true);
     try {
-      await mintNFT(tokenId, metadata);
+      await mintNFT(tokenId, metadata, ownerAccountId);
       toast.success('NFT minted successfully!');
       setTitle('');
       setDescription('');
       setMediaUrl('');
+      setOwnerAccountId('');
       // Reload NFTs after minting
       await loadNFTs();
     } catch (error) {
@@ -169,6 +171,20 @@ function App() {
                         placeholder="https://example.com/image.png"
                         required
                       />
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="ownerAccountId" className="form-label">Owner Account ID</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="ownerAccountId"
+                        value={ownerAccountId}
+                        onChange={(e) => setOwnerAccountId(e.target.value)}
+                        placeholder="e.g., alice.testnet (leave empty to mint for yourself)"
+                      />
+                      <small className="form-text text-muted">
+                        Leave empty to mint for yourself, or specify another account to mint for them
+                      </small>
                     </div>
                     <div className="d-grid">
                       <button 

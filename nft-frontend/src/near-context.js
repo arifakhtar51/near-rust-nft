@@ -67,19 +67,19 @@ export const NearProvider = ({ children }) => {
     }
   };
 
-  const mintNFT = async (tokenId, metadata) => {
+  const mintNFT = async (tokenId, metadata, ownerAccountId) => {
     if (!walletConnection || !currentUser) {
       throw new Error('Please sign in to mint NFTs');
     }
 
     try {
-      // A simpler minting approach that works with our simplified contract
+      // Allow minting NFTs for any account
       return await walletConnection.account().functionCall({
         contractId: nearConfig.contractName,
         methodName: 'nft_mint',
         args: {
           token_id: tokenId,
-          token_owner_id: currentUser.accountId,
+          token_owner_id: ownerAccountId || currentUser.accountId,
           token_metadata: {
             title: metadata.title || "",
             description: metadata.description || "",
