@@ -1,0 +1,11 @@
+C:\Users\arifa\Desktop\ignitus projects\Rush Near\nft-contract\target\debug\deps\libborsh-babaf33971f323e5.rmeta: C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src/lib.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\de\mod.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\de\hint.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\schema.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\schema_helpers.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\ser\mod.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\ser\helpers.rs
+
+C:\Users\arifa\Desktop\ignitus projects\Rush Near\nft-contract\target\debug\deps\borsh-babaf33971f323e5.d: C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src/lib.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\de\mod.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\de\hint.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\schema.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\schema_helpers.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\ser\mod.rs C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\ser\helpers.rs
+
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src/lib.rs:
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\de\mod.rs:
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\de\hint.rs:
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\schema.rs:
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\schema_helpers.rs:
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\ser\mod.rs:
+C:\Users\arifa\.cargo\registry\src\index.crates.io-6f17d22bba15001f\borsh-0.9.3\src\ser\helpers.rs:

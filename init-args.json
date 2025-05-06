@@ -1,1 +1,8 @@
-{"owner_id": "arifakhtar.testnet"} 
+{
+    "owner_id": "ariftest1.testnet",
+    "metadata": {
+        "spec": "nft-1.0.0",
+        "name": "NEAR NFT Marketplace",
+        "symbol": "NEAR-NFT"
+    }
+} 

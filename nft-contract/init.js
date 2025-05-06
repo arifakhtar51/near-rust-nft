@@ -4,7 +4,7 @@ const path = require('path');
 const homedir = require('os').homedir();
 
 const CREDENTIALS_DIR = '.near-credentials';
-const CONTRACT_ID = 'arifakhtar51.testnet';
+const CONTRACT_ID = 'ariftest1.testnet';
 const NETWORK_ID = 'testnet'; 
 
 // Configure connection to NEAR
