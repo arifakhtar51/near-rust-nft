@@ -36,4 +36,15 @@ yarn-error.log*
 *.swo
 
 # NEAR specific
-.near-credentials/ 
+.near-credentials/
+
+# Rust installer binary
+nft-contract/rustup-init.exe
+
+# Compiled WASM files
+nft-contract/res/*.wasm
+nft-contract/target/**/*.wasm
+
+# If you want to ignore all lock files (not always recommended)
+# **/package-lock.json
+# **/Cargo.lock 
